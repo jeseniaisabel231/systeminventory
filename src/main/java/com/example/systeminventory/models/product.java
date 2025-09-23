@@ -5,8 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-public class product {
-
+public class Product {
   @Id // Identificador del producto
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -26,4 +25,6 @@ public class product {
   @Column(nullable = false)
   private Integer stock;
 
+  @Column(nullable = false)
+  private String trademark;
 }

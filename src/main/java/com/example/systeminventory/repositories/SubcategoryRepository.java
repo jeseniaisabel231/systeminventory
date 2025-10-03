@@ -10,5 +10,6 @@ import com.example.systeminventory.models.Subcategory;
 @Repository
 public interface SubcategoryRepository extends JpaRepository<Subcategory, Long> {
 	Optional<Subcategory> findbyCode(String code);
+
 	Boolean existsByCode(String code);
 }

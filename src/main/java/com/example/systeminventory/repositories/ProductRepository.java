@@ -12,5 +12,8 @@ import com.example.systeminventory.models.Product;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 	Optional<Product> findByCode(String code);
 
+	Boolean existsByCode(String code);
+
 	List<Product> findByTrademark(String trademark);
+	
 }

@@ -20,20 +20,38 @@ public class SubcategoryService {
 
   public Optional<Object> createSubcategory(SubcategoryDTO subcategoryDTO){
     String code = subcategoryDTO.getCode();
+    
     if(repository.existsByCode(code))
-    throw new RuntimeException("Ya existe un producto con el codigo " + code);
+      throw new RuntimeException("Ya existe un producto con el codigo " + code);
+    
     Subcategory subcategory = modelmapper.map(subcategoryDTO, Subcategory.class);
+    
     return Optional.of(repository.save(subcategory));
   }
+
   public Optional<Subcategory> getSubcategory(Long id){
-    return repository.findById(id);
+    Subcategory subcategory = repository.findById(id)
+      .orElseThrow(() -> new RuntimeException("No existe la subcategoria con id " + id));
+
+    return Optional.of(subcategory);
   }
+
   public List<Subcategory> getAllSubcategory(){
     return repository.findAll();
   }
+
   public void deleteSubcategory(Long id){
     repository.deleteById(id);
   }
-  
-  
+
+  public Optional<Object> updateSubcategory(Long id, SubcategoryDTO subcategoryDTO) {
+    Subcategory subcategory = repository.findById(id)
+      .orElseThrow(() -> new RuntimeException("No existe la subcategoria con el id " + id));
+
+    String code = subcategoryDTO.getCode();
+
+    if (!code.equals(subcategory.getCode()) && repository.existsByCode(code))
+      throw new RuntimeException("Ya existe un registro con ese código");
+    
+  }
 }

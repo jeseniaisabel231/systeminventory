@@ -17,7 +17,7 @@ public class SubcategoryService {
   @Autowired
   private ModelMapper modelmapper;
 
-  public Optional<Object> createSubcategory(SubcategoryDTO subcategoryDTO){
+  public Optional<Subcategory> createSubcategory(SubcategoryDTO subcategoryDTO){
     String codeDTO = subcategoryDTO.getCode();
     
     if(repository.existsByCode(codeDTO))
@@ -33,7 +33,7 @@ public class SubcategoryService {
     return Optional.of(repository.save(subcategory));
   }
 
-  public Optional<Subcategory> getSubcategory(Long id){
+  public Optional<Subcategory> getSubcategoryById(Long id){
     Subcategory subcategory = repository.findById(id)
       .orElseThrow(() -> new RuntimeException("No existe la subcategoria con id " + id));
 

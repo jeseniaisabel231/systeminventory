@@ -6,6 +6,7 @@ import com.example.systeminventory.services.ProductService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class ProductController { // Controlador de productos: maneja las solicit
   @GetMapping("/{id}") // Anotación para manejar solicitudes GET con un ID de producto
   public ResponseEntity<Object> getProductById(@PathVariable Long id) { // @PathVariable vincula el ID de la URL al parámetro del método
     try {
-			Product product = productService.getProductById(id); // Llama al servicio para obtener un producto por su ID 
+			Optional<Product> product = productService.getProductById(id); // Llama al servicio para obtener un producto por su ID 
       return ResponseEntity.ok(product); // ResponseEntity es una clase que representa toda la respuesta HTTP
     } catch (RuntimeException e) {
       return ResponseEntity.badRequest().body(Map.of("response", e.getMessage())); // Manejo de errores: devuelve un mensaje de error si el producto no se encuentra
@@ -40,9 +41,9 @@ public class ProductController { // Controlador de productos: maneja las solicit
   }
 
   @PostMapping // Anotación para manejar solicitudes POST
-  public ResponseEntity<Object> createProduct(@RequestBody ProductDTO product) { // @RequestBody vincula el cuerpo de la solicitud al parámetro del método
+  public ResponseEntity<Object> createProduct(@RequestBody ProductDTO productDTO) { // @RequestBody vincula el cuerpo de la solicitud al parámetro del método
     try {
-			Product product = productService.createProduct(product); // Llama al servicio para crear un nuevo producto
+			Optional<Product> product = productService.createProduct(productDTO); // Llama al servicio para crear un nuevo producto
       return ResponseEntity.ok(product);
     } catch (RuntimeException e) {
       return ResponseEntity.badRequest().body(Map.of("response", e.getMessage()));
@@ -52,7 +53,7 @@ public class ProductController { // Controlador de productos: maneja las solicit
   @PutMapping("/{id}") // Anotación para manejar solicitudes PUT con un ID de producto
   public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
     try {
-			Product product = productService.updateProducts(id, productDTO); // Llama al servicio para actualizar un producto existente
+			Optional<Object> product = productService.updateProducts(id, productDTO); // Llama al servicio para actualizar un producto existente
       return ResponseEntity.ok(product);
     } catch (RuntimeException e) {
       return ResponseEntity.badRequest().body(Map.of("response", e.getMessage()));

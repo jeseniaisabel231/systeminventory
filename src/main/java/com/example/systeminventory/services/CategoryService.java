@@ -17,7 +17,7 @@ public class CategoryService {
   @Autowired
   private ModelMapper modelmapper;
 
-  public Optional<Object> createCategory(CategoryDTO categoryDTO) {
+  public Optional<Category> createCategory(CategoryDTO categoryDTO) {
     String code = categoryDTO.getCode();
     if (repository.existsByCode(code))
       throw new RuntimeException("Ya existe un producto con el codigo " + code);
@@ -31,7 +31,7 @@ public class CategoryService {
     return Optional.of(repository.save(categoryDB));
   }
 
-  public Optional<Category> getCategory(Long id) {
+  public Optional<Category> getCategoryById(Long id) {
     return repository.findById(id);
   }
 

@@ -24,13 +24,17 @@ public class ProductService {
     if (repository.existsByCode(code))
       throw new RuntimeException("Ya existe un producto con el codigo " + code);
 
+    String nameDTO = productDTO.getName();
+    if (repository.existsByName(nameDTO))
+      throw new RuntimeException("Ya existe un registro con ese nombre");
+
     Product product = modelmapper.map(productDTO, Product.class); // Conversion de DTO a modelo de la base de datos
 
     // Retorno un objeto opcional
     return Optional.of(repository.save(product));
   }
 
-  public Optional<Product> getProduct(Long id) {
+  public Optional<Product> getProductById(Long id) {
     return repository.findById(id);
   }
 
@@ -38,7 +42,26 @@ public class ProductService {
     return repository.findAll();
   }
 
-  public void deleteProduct(Long id){
+  public Optional<Object> updateProducts(Long id, ProductDTO productDTO) {
+    Product productDB = repository.findById(id)
+        .orElseThrow(() -> new RuntimeException("No existe la categoria con el id " + id));
+
+    String codeDTO = productDTO.getCode();
+    if (!codeDTO.equals(productDB.getCode()) && repository.existsByCode(codeDTO))
+      throw new RuntimeException("Ya existe un registro con ese código");
+
+    productDB.setCode(codeDTO);
+
+    String nameDTO = productDTO.getName();
+    if (!nameDTO.equals(productDB.getCode()) && repository.existsByName(nameDTO))
+      throw new RuntimeException("Ya existe un registro con ese nombre");
+
+    productDB.setName(nameDTO);
+    productDB.setDescription(productDTO.getDescription());
+    return Optional.of(repository.save(productDB));
+  }
+
+  public void deleteProduct(Long id) {
     repository.deleteById(id);
   }
 }

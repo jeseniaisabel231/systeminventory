@@ -15,5 +15,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	Boolean existsByCode(String code);
 
 	List<Product> findByTrademark(String trademark);
+	Boolean existsByName(String Name);
 	
 }

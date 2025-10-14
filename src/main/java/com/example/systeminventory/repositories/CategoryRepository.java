@@ -14,4 +14,8 @@ public interface CategoryRepository extends JpaRepository<Category, Long> { // E
 	Optional<Category> findByCode(String code); // Este retorna toda la información de Category
 
 	Boolean existsByCode(String code); // Te retorna true si existe la Category con el código solicitado
+
+	Boolean existsByName(String name); // Te retorna true si existe la Category con el código solicitado
+
+
 }

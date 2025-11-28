@@ -46,7 +46,7 @@ COPY --from=builder /app/snapshot-dependencies/ ./
 COPY --from=builder /app/application/ ./
 
 # Exponemos el puerto por defecto de Spring Boot
-EXPOSE 8080
+EXPOSE 8000
 
 # Comando de entrada
 ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
